@@ -24,6 +24,7 @@ interface RoomBookingCardProps {
   onBookingStart?: () => void;
   onBookingComplete?: (bookingId: string, booking: BookingDetails) => void;
   onBookingError?: (error: string) => void;
+  onBusyChange?: (busy: boolean) => void;
   className?: string;
 }
 
@@ -34,6 +35,7 @@ const RoomBookingCard: React.FC<RoomBookingCardProps> = ({
   onBookingStart,
   onBookingComplete,
   onBookingError,
+  onBusyChange,
   className,
 }) => {
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>();
@@ -128,6 +130,7 @@ const RoomBookingCard: React.FC<RoomBookingCardProps> = ({
           onBookingStart={handleBookingStart}
           onBookingComplete={handleBookingComplete}
           onBookingError={handleBookingError}
+          onBusyChange={onBusyChange}
           className="mt-6"
         />
       </CardContent>
