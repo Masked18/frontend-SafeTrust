@@ -2,6 +2,12 @@
 
 import { useSyncExternalStore } from "react";
 
+/**
+ * SSR-safe media query listener hook using useSyncExternalStore.
+ *
+ * @param query - CSS media query string (e.g. `(min-width: 1280px)`)
+ * @returns boolean indicating whether the media query currently matches
+ */
 export function useMediaQuery(query: string): boolean {
   return useSyncExternalStore(
     (callback) => {

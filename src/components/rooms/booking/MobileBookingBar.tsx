@@ -12,6 +12,9 @@ export interface MobileBookingBarProps {
   children: React.ReactNode;
 }
 
+/**
+ * Sticky bottom Reserve bar and Vaul drawer sheet for mobile room booking.
+ */
 export function MobileBookingBar({
   nightlyRate,
   open,
