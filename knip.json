@@ -19,7 +19,11 @@
     "src/lib/rent-filters.ts",
     "src/features/listings/**"
   ],
+  "ignoreIssues": {
+    ".husky/**": ["binaries"]
+  },
   "ignoreDependencies": [
+    "lint-staged",
     "@axe-core/playwright",
     "@walletconnect/core",
     "@walletconnect/utils",

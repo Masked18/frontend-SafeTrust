@@ -1,10 +1,28 @@
 @import "../styles/scroball.css";
+@import "../components/dashboard/ui/dashboard-glass.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Composited text contrast on glass surfaces (WCAG AA >= 4.5:1 required):
+   * Light mode:
+   *   --glass is 0 0% 100% / 0.72 over --background (#FFFFFF) / neutral gradients (#F3F4F6).
+   *   Effective background luminance L ≈ 0.98.
+   *   Foreground text (--foreground: 222.2 84% 4.9% -> #020617, L ≈ 0.0012).
+   *   Measured composited contrast: ~20.5:1 (passes >= 4.5:1).
+   *   Muted text (--muted-foreground: 215.4 16.3% 36% -> #4D596B, L ≈ 0.098).
+   *   Measured composited contrast: ~7.1:1 (passes >= 4.5:1).
+   * Dark mode:
+   *   --glass is 215 32% 12% / 0.9 (#151C28 @ 90%) over --background (#020617).
+   *   Effective background luminance L ≈ 0.0102.
+   *   Foreground text (--foreground: 210 40% 98% -> #F7F9FC, L ≈ 0.95).
+   *   Measured composited contrast: ~16.6:1 (passes >= 4.5:1).
+   *   Muted text (--muted-foreground: 215 20.2% 70% -> #A3B2C2, L ≈ 0.44).
+   *   Measured composited contrast: ~8.1:1 (passes >= 4.5:1).
+   */
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -35,6 +53,9 @@
     --chart-3: 142.1 76.2% 36.3%;
     --chart-4: 47.9 95.8% 53.1%;
     --chart-5: 0 84.2% 60.2%;
+    --glass: 0 0% 100% / 0.72;
+    --glass-border: 220 13% 91% / 0.6;
+    --glass-shadow: 220 13% 69% / 0.12;
   }
 
   .dark {
@@ -66,6 +87,9 @@
     --chart-3: 142.1 76.2% 36.3%;
     --chart-4: 47.9 95.8% 53.1%;
     --chart-5: 0 84.2% 60.2%;
+    --glass: 215 32% 12% / 0.9;
+    --glass-border: 215 20% 35% / 0.4;
+    --glass-shadow: 0 0% 0% / 0.3;
   }
 
   /* Guest pages (/, /rent, /rent/[id], /guest/*): dark-blue brand. */

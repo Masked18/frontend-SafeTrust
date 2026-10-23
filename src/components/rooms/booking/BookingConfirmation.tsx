@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Calendar, Users, DollarSign, Copy } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface BookingConfirmationProps {
   bookingId: string;
@@ -47,7 +48,10 @@ const BookingConfirmation: React.FC<BookingConfirmationProps> = ({
 
   return (
     <Card
-      className={`!rounded-3xl !shadow-none border-black/10 w-full max-w-md ${className}`}
+      className={cn(
+        "dashboard-glass-card !bg-[hsl(var(--glass))] !border-[hsl(var(--glass-border))] !rounded-3xl !shadow-none w-full max-w-md",
+        className,
+      )}
     >
       <CardHeader className="text-center pb-4">
         <div className="flex justify-center mb-4">

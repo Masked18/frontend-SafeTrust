@@ -10,11 +10,12 @@ test.describe("Room page actions", () => {
 
   test("signed out: Contact → login → back on /room", async ({ page }) => {
     await page.goto("/room");
-    await page
+    const contact = page
       .getByRole("button", { name: "Contact host", exact: true })
       .filter({ visible: true })
-      .first()
-      .click();
+      .first();
+    await waitForHydration(contact);
+    await contact.click();
 
     await expect(page).toHaveURL(/\/login\?redirect=%2Froom$/);
 

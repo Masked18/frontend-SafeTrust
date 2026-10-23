@@ -32,14 +32,14 @@ src/
 
 ## 2. Permitted vs Forbidden Import Table
 
-| Layer | May import | Must NOT import |
-|---|---|---|
-| `app/` | Everything except another route's private files | — |
-| `features/<x>` | `components/ui`, `components/layout`, `lib`, `config/env`, `types`, **other features only via their `index.ts`** | `app/`, `server/`, another feature's internal modules (`@/features/*/*`) |
-| `components/ui` | `lib/utils` only | `features`, `hooks`, `providers`, `data`, `server/` |
-| `components/layout` | `components/ui`, `lib`, `features/*/index.ts` (auth state only) | `server/`, demo data |
-| `server/` | `config/env.server`, `lib` | Anything client (`"use client"` modules, React) |
-| `lib/` | `config`, `types` | `features`, `components`, `server/` |
+| Layer               | May import                                                                                                       | Must NOT import                                                          |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `app/`              | Everything except another route's private files                                                                  | —                                                                        |
+| `features/<x>`      | `components/ui`, `components/layout`, `lib`, `config/env`, `types`, **other features only via their `index.ts`** | `app/`, `server/`, another feature's internal modules (`@/features/*/*`) |
+| `components/ui`     | `lib/utils` only                                                                                                 | `features`, `hooks`, `providers`, `data`, `server/`                      |
+| `components/layout` | `components/ui`, `lib`, `features/*/index.ts` (auth state only)                                                  | `server/`, demo data                                                     |
+| `server/`           | `config/env.server`, `lib`                                                                                       | Anything client (`"use client"` modules, React)                          |
+| `lib/`              | `config`, `types`                                                                                                | `features`, `components`, `server/`                                      |
 
 ---
 

@@ -4,15 +4,17 @@ import { formatListingPrice } from "./formatListingPrice";
 /** Demo listing prices are USD per night (see SD-00). */
 export const LISTING_PRICE_UNIT = "night" as const;
 
+export interface ListingPriceProps {
+  amount: number;
+  size?: "sm" | "md" | "lg";
+  className?: string;
+}
+
 export function ListingPrice({
   amount,
   size = "md",
   className,
-}: {
-  amount: number;
-  size?: "sm" | "md" | "lg";
-  className?: string;
-}) {
+}: ListingPriceProps) {
   return (
     <span className={cn("inline-flex items-baseline gap-1", className)}>
       <span
@@ -31,3 +33,5 @@ export function ListingPrice({
     </span>
   );
 }
+
+export default ListingPrice;

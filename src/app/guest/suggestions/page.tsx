@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import HotelHeader from "@/components/listings/HotelHeader";
 import { PageContainer } from "@/components/layouts/PageContainer";
 import { APARTMENT_LISTINGS } from "@/lib/mockData/apartmentListings";
+import { ListingLocation } from "@/features/listings/detail/ListingLocation";
 import { ListingPrice } from "@/components/listings/ListingPrice";
 
 export default function GuestSuggestionsPage() {
@@ -293,6 +294,11 @@ export default function GuestSuggestionsPage() {
               <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                 {selected.description}
               </p>
+            </div>
+
+            {/* Where you'll stay map section */}
+            <div className="border-t border-gray-200 dark:border-slate-800 pt-4">
+              <ListingLocation listing={selected} />
             </div>
           </main>
 

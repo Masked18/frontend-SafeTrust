@@ -138,6 +138,7 @@ export default function RoomPage() {
           {/* Action Bar */}
           <RoomActionBar
             isLiked={isLiked}
+            disabled={loading}
             onLike={handleLike}
             onContact={contactHost}
           />

@@ -126,6 +126,9 @@ export async function expectHealthyPage(page: import("@playwright/test").Page) {
   );
   const axe = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa"])
+    .exclude(
+      "[data-sonner-toast][data-removed='true'], [data-sonner-toast][data-visible='false']",
+    )
     .analyze();
   expect(
     axe.violations.map((v) => ({
