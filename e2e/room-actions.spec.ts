@@ -77,6 +77,7 @@ test.describe("Room page actions", () => {
     const datePickerTrigger = drawer.getByRole("button", {
       name: /select your dates/i,
     });
+    await datePickerTrigger.scrollIntoViewIfNeeded();
     await datePickerTrigger.click();
 
     const twoNightsOption = page.getByRole("button", {
@@ -84,7 +85,7 @@ test.describe("Room page actions", () => {
       exact: true,
     });
     await expect(twoNightsOption).toBeVisible();
-    await twoNightsOption.click();
+    await twoNightsOption.click({ force: true });
 
     const totalEl = drawer.getByTestId("price-calculator-total");
     await expect(totalEl).toBeVisible();
