@@ -70,10 +70,10 @@ test.describe("Rental detail — Where you'll stay map and sticky booking bar", 
     const bookBtn = summaryBar.getByRole("button", { name: "Book" });
     await expect(bookBtn).toBeVisible();
 
-    // Clicking Book navigates to /rent/[id]/escrow/create with parameters (or login redirect with redirect query param if unauthenticated)
+    // Clicking Book navigates to the unified booking checkout with parameters (or login redirect if unauthenticated).
     await bookBtn.click();
     await expect(page).toHaveURL(
-      /(?:\/rent\/1\/escrow\/create\?checkIn=2026-11-01&checkOut=2026-11-06|\/login\?redirect=%2Frent%2F1%2Fescrow%2Fcreate%3FcheckIn%3D2026-11-01%26checkOut%3D2026-11-06)/,
+      /(?:\/rent\/1\/book\?checkIn=2026-11-01&checkOut=2026-11-06&adults=2&guests=2|\/login\?redirect=%2Frent%2F1%2Fbook%3FcheckIn%3D2026-11-01%26checkOut%3D2026-11-06%26adults%3D2%26guests%3D2)/,
     );
   });
 

@@ -28,14 +28,23 @@ import { directionsUrl, isValidCoordinate } from "@/lib/geo";
 import { loginHref } from "@/components/navigation/account-routes";
 import { EscrowProviders } from "@/providers/EscrowProviders";
 import type { BookingDetails } from "@/features/escrow/booking-escrow.machine";
+import type { ApartmentListing } from "@/types/hotel";
 
-const roomListing = getApartmentById("1");
+function getRoomListing(id: string): ApartmentListing {
+  const room = getApartmentById(id);
+  if (!room) {
+    throw new Error("The room demo listing is missing from apartment listings");
+  }
+  return room;
+}
+
+const roomListing = getRoomListing("1");
 const additionalImages = roomListing.images.slice(1);
 
 // Static demo room: no dynamic hotel id is available on /room yet.
 // Keep the id explicit here so the booking link does not silently drift.
 const hotelId = "1";
-const listing = getApartmentById(hotelId);
+const listing = getRoomListing(hotelId);
 // Nightly rate for the demo room (kept small for testnet walkthroughs).
 const NIGHTLY_RATE = 2;
 

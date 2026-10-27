@@ -55,8 +55,8 @@ function RentalDetailContent({
     const query = params.toString();
     router.push(
       query
-        ? `/rent/${apartment.id}/escrow/create?${query}`
-        : `/rent/${apartment.id}/escrow/create`,
+        ? `/rent/${apartment.id}/book?${query}`
+        : `/rent/${apartment.id}/book`,
     );
   };
 
@@ -75,7 +75,7 @@ function RentalDetailContent({
       adults: adults.toString(),
       guests: adults.toString(),
     });
-    router.push(`/rent/${apartment.id}/escrow/create?${params.toString()}`);
+    router.push(`/rent/${apartment.id}/book?${params.toString()}`);
   };
 
   return (

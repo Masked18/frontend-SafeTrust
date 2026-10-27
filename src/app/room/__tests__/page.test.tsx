@@ -105,6 +105,7 @@ describe("RoomPage actions", () => {
 
   it("disables Get Directions when the listing coordinates are invalid", () => {
     const listing = getApartmentById("1");
+    if (!listing) throw new Error("The room demo listing is missing");
     const original = listing.coordinates;
     listing.coordinates = { lat: Number.NaN, lng: 0 };
     try {

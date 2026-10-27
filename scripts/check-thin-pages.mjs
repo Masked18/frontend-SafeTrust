@@ -3,8 +3,6 @@ import { join, relative, sep } from "node:path";
 
 const appDirectory = join(process.cwd(), "src", "app");
 const allowedClientPages = new Set([
-  "bookings/[bookingId]/escrow/page.tsx",
-  "bookings/new/escrow/page.tsx",
   "dashboard/escrow/page.tsx",
   "dashboard/hotels/[id]/edit/page.tsx",
   "dashboard/hotels/[id]/page.tsx",
@@ -14,7 +12,6 @@ const allowedClientPages = new Set([
   "guest/suggestions/page.tsx",
   "hotels/search/page.tsx",
   "rent/[id]/escrow/[escrowId]/page.tsx",
-  "rent/[id]/escrow/create/page.tsx",
   "rent/page.tsx",
   "room/page.tsx",
 ]);

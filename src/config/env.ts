@@ -1,5 +1,7 @@
 import { StrKey } from "@stellar/stellar-sdk";
 import { z } from "zod";
+import { usdcIssuerOverrideWarning } from "@/lib/stellar/assets";
+import { STELLAR_NETWORK_NAME } from "@/lib/stellar/network";
 
 const stellarAddressSchema = z
   .string()
@@ -20,12 +22,27 @@ const defaultTrustlessNetwork =
  * so Next.js can inline it at build time. Never spread process.env.
  */
 export const clientSchema = z.object({
-  NEXT_PUBLIC_FIREBASE_API_KEY: z.string().min(1),
-  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: z.string().min(1),
-  NEXT_PUBLIC_FIREBASE_PROJECT_ID: z.string().min(1),
-  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: z.string().min(1),
-  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: z.string().min(1),
-  NEXT_PUBLIC_FIREBASE_APP_ID: z.string().min(1),
+  NEXT_PUBLIC_FIREBASE_API_KEY: z
+    .string()
+    .min(1)
+    .default("demo-firebase-api-key"),
+  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: z
+    .string()
+    .min(1)
+    .default("demo-project.firebaseapp.com"),
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID: z.string().min(1).default("demo-project"),
+  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: z
+    .string()
+    .min(1)
+    .default("demo-project.firebasestorage.app"),
+  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: z
+    .string()
+    .min(1)
+    .default("000000000000"),
+  NEXT_PUBLIC_FIREBASE_APP_ID: z
+    .string()
+    .min(1)
+    .default("1:000000000000:web:demo-app-id"),
   NEXT_PUBLIC_TRUSTLESS_API_URL: z
     .string()
     .url()
@@ -70,3 +87,15 @@ export const clientEnv = clientSchema.parse({
   NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID:
     process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || undefined,
 });
+
+// A malformed NEXT_PUBLIC_USDC_ISSUER already fails the parse above. Warn in
+// development when a valid override differs from the network's USDC issuer
+// (most often the other network's): it is honored, so escrows would use it.
+// Compared against STELLAR_NETWORK_NAME, the network the wallet kit signs on.
+if (process.env.NODE_ENV === "development") {
+  const warning = usdcIssuerOverrideWarning(
+    STELLAR_NETWORK_NAME,
+    clientEnv.NEXT_PUBLIC_USDC_ISSUER,
+  );
+  if (warning) console.warn(`[env] ${warning}`);
+}

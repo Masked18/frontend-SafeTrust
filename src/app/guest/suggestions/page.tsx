@@ -334,9 +334,7 @@ export default function GuestSuggestionsPage() {
 
               <button
                 type="button"
-                onClick={() =>
-                  router.push(`/rent/${selected.id}/escrow/create`)
-                }
+                onClick={() => router.push(`/rent/${selected.id}/book`)}
                 className="w-full rounded-xl bg-primary py-3 text-center
                            text-sm font-semibold text-primary-foreground shadow-lg
                            shadow-primary/20 hover:bg-primary/90
