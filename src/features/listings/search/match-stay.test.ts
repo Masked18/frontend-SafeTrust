@@ -2,7 +2,7 @@ import { applyRentFilters } from "@/components/listings/filters/applyRentFilters
 import { DEFAULT_FILTERS } from "@/components/listings/filters/useRentFilters";
 import { APARTMENT_LISTINGS } from "@/lib/mockData/apartmentListings";
 import type { ApartmentListing } from "@/types/hotel";
-import { addDays } from "./date-only";
+import { addDays, type IsoDate } from "./date-only";
 import {
   applyStaySearch,
   candidateStays,
@@ -12,7 +12,7 @@ import {
   overlaps,
   type StayRange,
 } from "./match-stay";
-import { parseStaySearch, type IsoDate, type StaySearch } from "./stay-search";
+import { parseStaySearch, type StaySearch } from "./stay-search";
 
 /** Fixed "today" so every expected id below is deterministic. */
 const TODAY: IsoDate = "2026-03-02";

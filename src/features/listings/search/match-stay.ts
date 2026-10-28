@@ -1,11 +1,6 @@
 import type { ApartmentListing } from "@/types/hotel";
-import { addDays } from "./date-only";
-import type {
-  DateSearch,
-  GuestCounts,
-  IsoDate,
-  StaySearch,
-} from "./stay-search";
+import { addDays, type IsoDate } from "./date-only";
+import type { DateSearch, GuestCounts, StaySearch } from "./stay-search";
 
 /** Half-open [start, end): check-out day is free for the next guest. */
 export interface StayRange {
