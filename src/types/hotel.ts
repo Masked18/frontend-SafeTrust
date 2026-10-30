@@ -46,6 +46,7 @@ export interface ApartmentListing extends ApartmentAmenitySummary {
   /** Adults + children. Never derived from bedrooms. */
   maxGuests?: number;
   maxInfants?: number;
+  favorite?: boolean;
   availability?: DemoAvailability;
 }
 
