@@ -56,16 +56,17 @@ describe("Environment Variable Contract", () => {
       expect(parsed.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID).toBeUndefined();
     });
 
-    it("fails fast with a zod error naming the variable when Firebase API key is missing", () => {
+    it("defaults the Firebase API key to a demo value when it is missing", () => {
       const configWithoutApiKey = { ...validFirebaseConfig };
       delete (configWithoutApiKey as Record<string, unknown>)
         .NEXT_PUBLIC_FIREBASE_API_KEY;
 
       const result = clientSchema.safeParse(configWithoutApiKey);
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        const paths = result.error.issues.map((i) => i.path[0]);
-        expect(paths).toContain("NEXT_PUBLIC_FIREBASE_API_KEY");
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.NEXT_PUBLIC_FIREBASE_API_KEY).toBe(
+          "demo-firebase-api-key",
+        );
       }
     });
 

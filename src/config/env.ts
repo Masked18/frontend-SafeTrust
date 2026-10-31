@@ -59,6 +59,14 @@ export const clientSchema = z.object({
     .url()
     .default("http://localhost:8080/v1/graphql"),
   NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: z.string().optional(),
+  NEXT_PUBLIC_MAP_TILE_URL: z
+    .string()
+    .default("https://tile.openstreetmap.org/{z}/{x}/{y}.png"),
+  NEXT_PUBLIC_MAP_ATTRIBUTION: z
+    .string()
+    .default(
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    ),
 });
 
 export const clientEnv = clientSchema.parse({
@@ -86,6 +94,9 @@ export const clientEnv = clientSchema.parse({
     process.env.NEXT_PUBLIC_HASURA_GRAPHQL_URL || undefined,
   NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID:
     process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || undefined,
+  NEXT_PUBLIC_MAP_TILE_URL: process.env.NEXT_PUBLIC_MAP_TILE_URL || undefined,
+  NEXT_PUBLIC_MAP_ATTRIBUTION:
+    process.env.NEXT_PUBLIC_MAP_ATTRIBUTION || undefined,
 });
 
 // A malformed NEXT_PUBLIC_USDC_ISSUER already fails the parse above. Warn in

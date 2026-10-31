@@ -24,16 +24,64 @@ const make = (over: MakeOver): EscrowData =>
   }) as unknown as EscrowData;
 
 const escrows: EscrowData[] = [
-  make({ id: "a", status: "pending", amount: 50, createdAt: "2025-01-01T00:00:00Z", metadata: { checkInDate: "2025-02-10T15:00:00Z", checkOutDate: "2025-02-12T10:00:00Z" } }),
-  make({ id: "b", status: "funded", amount: 200, createdAt: "2025-01-03T00:00:00Z", metadata: { checkInDate: "2025-02-20T09:00:00Z", checkOutDate: "2025-02-22T10:00:00Z" } }),
-  make({ id: "c", status: "completed", amount: 120, createdAt: "2025-01-02T00:00:00Z", metadata: { checkInDate: "2025-03-01T00:00:00Z", checkOutDate: "2025-03-05T00:00:00Z" } }),
-  make({ id: "d", status: "cancelled", amount: 10, createdAt: "2025-01-04T00:00:00Z", metadata: {} }),
-  make({ id: "e", status: "check_in_approved", amount: 75, createdAt: "2025-01-05T00:00:00Z", metadata: {} }),
-  make({ id: "f", status: "check_out_approved", amount: 300, createdAt: "2025-01-06T00:00:00Z", metadata: {} }),
+  make({
+    id: "a",
+    status: "pending",
+    amount: 50,
+    createdAt: "2025-01-01T00:00:00Z",
+    metadata: {
+      checkInDate: "2025-02-10T15:00:00Z",
+      checkOutDate: "2025-02-12T10:00:00Z",
+    },
+  }),
+  make({
+    id: "b",
+    status: "funded",
+    amount: 200,
+    createdAt: "2025-01-03T00:00:00Z",
+    metadata: {
+      checkInDate: "2025-02-20T09:00:00Z",
+      checkOutDate: "2025-02-22T10:00:00Z",
+    },
+  }),
+  make({
+    id: "c",
+    status: "completed",
+    amount: 120,
+    createdAt: "2025-01-02T00:00:00Z",
+    metadata: {
+      checkInDate: "2025-03-01T00:00:00Z",
+      checkOutDate: "2025-03-05T00:00:00Z",
+    },
+  }),
+  make({
+    id: "d",
+    status: "cancelled",
+    amount: 10,
+    createdAt: "2025-01-04T00:00:00Z",
+    metadata: {},
+  }),
+  make({
+    id: "e",
+    status: "check_in_approved",
+    amount: 75,
+    createdAt: "2025-01-05T00:00:00Z",
+    metadata: {},
+  }),
+  make({
+    id: "f",
+    status: "check_out_approved",
+    amount: 300,
+    createdAt: "2025-01-06T00:00:00Z",
+    metadata: {},
+  }),
 ];
 
 const ids = (xs: EscrowData[]) => xs.map((x) => x.id);
-const withF = (p: Partial<EscrowFilters>): EscrowFilters => ({ ...EMPTY_FILTERS, ...p });
+const withF = (p: Partial<EscrowFilters>): EscrowFilters => ({
+  ...EMPTY_FILTERS,
+  ...p,
+});
 
 describe("applyEscrowFilters: statuses", () => {
   it.each([
@@ -49,13 +97,18 @@ describe("applyEscrowFilters: statuses", () => {
   });
 
   it("returns everything when no status is selected", () => {
-    expect(applyEscrowFilters(escrows, EMPTY_FILTERS)).toHaveLength(escrows.length);
+    expect(applyEscrowFilters(escrows, EMPTY_FILTERS)).toHaveLength(
+      escrows.length,
+    );
   });
 });
 
 describe("applyEscrowFilters: amounts", () => {
   it("includes boundary values for min and max", () => {
-    const out = applyEscrowFilters(escrows, withF({ minAmount: 75, maxAmount: 200 }));
+    const out = applyEscrowFilters(
+      escrows,
+      withF({ minAmount: 75, maxAmount: 200 }),
+    );
     expect(ids(out).sort()).toEqual(["b", "e", "c"].sort());
   });
 
@@ -93,7 +146,8 @@ describe("applyEscrowFilters: inclusive dates", () => {
         escrows,
         withF({ checkIn: { from: "2025-02-20", to: null } }),
       );
-      expect(ids(out)).toEqual(["b"]);
+      // "b" checks in on the 'from' day itself; "c" is later, so both match.
+      expect(ids(out)).toEqual(["b", "c"]);
     },
   );
 

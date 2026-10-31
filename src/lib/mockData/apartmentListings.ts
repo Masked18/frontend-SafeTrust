@@ -1,6 +1,6 @@
 import type { ApartmentListing } from "@/types/hotel";
 
-export const APARTMENT_LISTINGS: ApartmentListing[] = [
+const apartmentListings: ApartmentListing[] = [
   {
     id: "1",
     name: "Casa Níspero, Barrio Escalante",
@@ -332,6 +332,89 @@ export const APARTMENT_LISTINGS: ApartmentListing[] = [
     rating: 4.5,
   },
 ];
+
+/** Published capacity and demo availability, keyed by listing id. */
+const STAY_METADATA: Record<
+  string,
+  Pick<ApartmentListing, "maxGuests" | "maxInfants" | "availability">
+> = {
+  "1": {
+    maxGuests: 4,
+    maxInfants: 1,
+    availability: { horizonDays: 365, booked: [{ startDay: 5, nights: 4 }] },
+  },
+  "2": {
+    maxGuests: 2,
+    maxInfants: 0,
+    availability: { horizonDays: 365, booked: [{ startDay: 0, nights: 10 }] },
+  },
+  "3": {
+    maxGuests: 2,
+    maxInfants: 1,
+    availability: { horizonDays: 365, booked: [{ startDay: 20, nights: 7 }] },
+  },
+  "4": {
+    maxGuests: 6,
+    maxInfants: 2,
+    availability: {
+      horizonDays: 365,
+      booked: [
+        { startDay: 3, nights: 3 },
+        { startDay: 40, nights: 14 },
+      ],
+    },
+  },
+  "5": {
+    maxGuests: 4,
+    maxInfants: 1,
+    availability: { horizonDays: 180, booked: [] },
+  },
+  "6": {
+    maxGuests: 4,
+    maxInfants: 1,
+    availability: { horizonDays: 365, booked: [{ startDay: 12, nights: 5 }] },
+  },
+  "7": {
+    maxGuests: 6,
+    maxInfants: 2,
+    availability: { horizonDays: 365, booked: [{ startDay: 1, nights: 30 }] },
+  },
+  "8": {
+    maxGuests: 4,
+    maxInfants: 1,
+    availability: { horizonDays: 120, booked: [{ startDay: 7, nights: 7 }] },
+  },
+  "9": {
+    maxGuests: 2,
+    maxInfants: 0,
+    availability: { horizonDays: 365, booked: [{ startDay: 0, nights: 2 }] },
+  },
+  "10": {
+    maxGuests: 8,
+    maxInfants: 2,
+    availability: {
+      horizonDays: 365,
+      booked: [
+        { startDay: 14, nights: 10 },
+        { startDay: 60, nights: 21 },
+      ],
+    },
+  },
+  "11": {
+    maxGuests: 4,
+    maxInfants: 1,
+    availability: { horizonDays: 365, booked: [{ startDay: 30, nights: 5 }] },
+  },
+  "12": {
+    maxGuests: 3,
+    maxInfants: 1,
+    availability: { horizonDays: 90, booked: [{ startDay: 4, nights: 4 }] },
+  },
+};
+
+export const APARTMENT_LISTINGS: ApartmentListing[] = apartmentListings.map(
+  (listing) => ({ ...listing, ...STAY_METADATA[listing.id] }),
+);
 
 export const APARTMENT_CATEGORIES = [
   "Family",

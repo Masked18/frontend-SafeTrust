@@ -6,3 +6,6 @@
 
 // Subscription Hooks
 export { useEscrowSubscription } from "./useEscrowSubscription";
+
+// UI & Responsive Hooks
+export { useMediaQuery } from "./useMediaQuery";

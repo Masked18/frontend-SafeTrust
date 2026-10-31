@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { AccountMenu } from "@/components/navigation/AccountMenu";
 import {
@@ -10,7 +10,8 @@ import {
   loginHref,
 } from "@/components/navigation/account-routes";
 import { useWishlist } from "@/features/listings";
-import { ChevronDown, Grid2X2, Heart, Lightbulb, Search } from "lucide-react";
+import { SearchComposer } from "@/features/listings/search/SearchComposer";
+import { ChevronDown, Grid2X2, Heart, Lightbulb } from "lucide-react";
 
 interface HotelHeaderProps {
   showHostSwitch?: boolean;
@@ -136,17 +137,15 @@ function HotelHeaderContent({ showHostSwitch }: HotelHeaderProps) {
           </span>
         </Link>
 
-        <div className="order-3 mx-0 flex min-w-0 w-full items-center rounded-full border border-border bg-muted/60 px-2 py-1.5 sm:order-none sm:mx-auto sm:w-auto sm:flex-1 sm:max-w-md">
+        <div className="order-3 mx-0 flex min-w-0 w-full items-center gap-2 sm:order-none sm:mx-auto sm:w-auto sm:flex-1 sm:max-w-md">
           <RentDropdown />
-          <div className="mx-3 h-6 w-px bg-gray-300 dark:bg-slate-600" />
-          <span className="min-w-0 truncate text-sm text-gray-600 dark:text-gray-300">
-            City, province or neighborhood
-          </span>
-          <Search
-            aria-hidden="true"
-            data-testid="header-search-icon"
-            className="ml-auto h-4 w-4 shrink-0 text-gray-600 dark:text-gray-300"
-          />
+          <Suspense
+            fallback={
+              <div className="h-11 min-w-0 flex-1 rounded-full border border-border bg-muted/60" />
+            }
+          >
+            <SearchComposer />
+          </Suspense>
         </div>
 
         <div className="ml-auto flex shrink-0 items-center gap-3 sm:gap-5">

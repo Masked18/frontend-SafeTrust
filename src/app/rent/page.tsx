@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import type { ApartmentListing } from "@/types/hotel";
 import BedroomTabs from "@/components/listings/BedroomTabs";
 import HotelHeader from "@/components/listings/HotelHeader";
@@ -15,12 +15,14 @@ import { useGeolocation } from "@/features/location";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
+import { cn } from "@/lib/utils";
 import { PageContainer } from "@/components/layouts/PageContainer";
 import { useRentFilters } from "@/components/listings/filters/useRentFilters";
 import { LazyMotionProvider } from "@/components/ui/LazyMotionProvider";
 import { RentReveal } from "@/components/listings/RentMotion";
 import {
   applyStaySearch,
+  ListingResultsMap,
   useStaySearch,
   WishlistAnnouncer,
   useSaveStay,
@@ -41,6 +43,7 @@ function RentPageContent() {
   const query = searchParams.get("q")?.trim() ?? "";
   const geo = useGeolocation();
   const { search, today } = useStaySearch();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const { filters, setFilters, reset, activeCount } = useRentFilters();
 
   const destinationCounts = useMemo(
@@ -81,6 +84,14 @@ function RentPageContent() {
   const handleApartmentClick = (apartment: ApartmentListing) => {
     router.push(`/rent/${apartment.id}`);
   };
+
+  // A pin selected on the results map scrolls to and highlights its card.
+  useEffect(() => {
+    if (!selectedId) return;
+    document
+      .getElementById(`listing-card-${selectedId}`)
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [selectedId]);
 
   const clearLocation = () => {
     geo.clear();
@@ -160,36 +171,57 @@ function RentPageContent() {
             />
           </RentReveal>
 
-          <div className="mt-6 sm:mt-8">
-            {results.length === 0 ? (
-              <EmptyState
-                title="No places match these filters"
-                description="Try another destination or widen the price range."
-                action={
-                  <Button variant="outline" onClick={reset}>
-                    Clear all filters
-                  </Button>
-                }
-              />
-            ) : (
-              <ApartmentGrid
-                apartments={results}
-                renderCard={(card, index) => (
-                  <RentReveal
-                    className="h-full min-w-0"
-                    delay={(index % 3) * 0.04}
-                  >
-                    {card}
-                  </RentReveal>
-                )}
-                distances={distances}
-                favorites={results
-                  .filter((a) => isSaved(a.id))
-                  .map((a) => a.id)}
-                onToggleFavorite={toggleSaved}
-                onApartmentClick={handleApartmentClick}
-              />
-            )}
+          <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-6">
+            <div className="min-w-0 flex-1">
+              {results.length === 0 ? (
+                <EmptyState
+                  title="No places match these filters"
+                  description="Try another destination or widen the price range."
+                  action={
+                    <Button variant="outline" onClick={reset}>
+                      Clear all filters
+                    </Button>
+                  }
+                />
+              ) : (
+                <ApartmentGrid
+                  apartments={results}
+                  renderCard={(card, index) => {
+                    const apartment = results[index];
+                    return (
+                      <div
+                        id={`listing-card-${apartment.id}`}
+                        onMouseEnter={() => setSelectedId(apartment.id)}
+                        onFocus={() => setSelectedId(apartment.id)}
+                        className={cn(
+                          "h-full min-w-0 rounded-[18px]",
+                          selectedId === apartment.id &&
+                            "ring-2 ring-foreground ring-offset-2 ring-offset-background",
+                        )}
+                      >
+                        <RentReveal
+                          className="h-full min-w-0"
+                          delay={(index % 3) * 0.04}
+                        >
+                          {card}
+                        </RentReveal>
+                      </div>
+                    );
+                  }}
+                  distances={distances}
+                  favorites={results
+                    .filter((a) => isSaved(a.id))
+                    .map((a) => a.id)}
+                  onToggleFavorite={toggleSaved}
+                  onApartmentClick={handleApartmentClick}
+                />
+              )}
+            </div>
+            <ListingResultsMap
+              listings={results}
+              selectedId={selectedId}
+              onSelect={setSelectedId}
+            />
           </div>
         </main>
       </PageContainer>
